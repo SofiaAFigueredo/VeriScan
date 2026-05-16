@@ -1,0 +1,15 @@
+{"timestamp":"00:00:00.758","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:02.266","source":"Server","level":"WARN","message":"Image with src \"/_next/static/media/RobôPessoa.10ga3wkg0ok11.png\" is using quality \"100\" which is not configured in images.qualities [75]. Please update your config to [100, 75].\nRead more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities"}
+{"timestamp":"00:00:02.282","source":"Server","level":"ERROR","message":"Failed to proxy http://localhost:4000/cleanup AggregateError"}
+{"timestamp":"00:00:02.284","source":"Server","level":"ERROR","message":"AggregateError"}
+{"timestamp":"00:00:02.428","source":"Browser","level":"INFO","message":"%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold"}
+{"timestamp":"00:00:02.440","source":"Browser","level":"WARN","message":"Image with src \"/_next/static/media/RobôPessoa.10ga3wkg0ok11.png\" is using quality \"100\" which is not configured in images.qualities [75]. Please update your config to [100, 75].\nRead more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities"}
+{"timestamp":"00:00:02.443","source":"Server","level":"WARN","message":"[browser] \"\\u001b[33mImage with src \\\"/_next/static/media/RobôPessoa.10ga3wkg0ok11.png\\\" is using quality \\\"100\\\" which is not configured in images.qualities [75]. Please update your config to [100, 75].\\nRead more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities\\u001b[39m\""}
+{"timestamp":"00:00:02.443","source":"Browser","level":"WARN","message":"\u001b[33mImage with src \"/_next/static/media/RobôPessoa.10ga3wkg0ok11.png\" is using quality \"100\" which is not configured in images.qualities [75]. Please update your config to [100, 75].\nRead more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities\u001b[39m"}
+{"timestamp":"00:00:06.218","source":"Server","level":"ERROR","message":"Failed to proxy http://localhost:4000/posts AggregateError"}
+{"timestamp":"00:00:06.220","source":"Server","level":"ERROR","message":"AggregateError"}
+{"timestamp":"00:00:08.740","source":"Server","level":"ERROR","message":"Failed to proxy http://localhost:4000/posts AggregateError"}
+{"timestamp":"00:00:08.742","source":"Server","level":"ERROR","message":"AggregateError"}
+{"timestamp":"00:00:33.619","source":"Browser","level":"LOG","message":"Análise VeriScan iniciada para: [\"4ae6029e72a64f0d5ec52af40faf6b9a-Musica.jpeg\",\"5f8714b8407c5982434031bfe0fc1114-2.jpeg\"]"}
+{"timestamp":"00:01:36.428","source":"Browser","level":"LOG","message":"Análise VeriScan iniciada para: [\"4ae6029e72a64f0d5ec52af40faf6b9a-Musica.jpeg\",\"5f8714b8407c5982434031bfe0fc1114-2.jpeg\"]"}
+{"timestamp":"00:04:31.565","source":"Server","level":"LOG","message":"✓ Compiled in 221ms"}
