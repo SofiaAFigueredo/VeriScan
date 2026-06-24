@@ -5,7 +5,7 @@ export type ArquivoItem = {
   file: File
   nome: string
   tamanho: string
-  status: 'pendente' | 'enviando' | 'enviado' | 'erro'
+  status: 'pendente' | 'enviando' | 'enviado' | 'erro' | 'validando' | 'sucesso'
   mensagemErro?: string
   urlServidor?: string  // URL pública do arquivo após upload
 }
