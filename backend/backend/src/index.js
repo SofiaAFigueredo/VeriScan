@@ -11,6 +11,8 @@ app.use(morgan('dev'));
 
 app.use(require('./routes'));
 
-app.listen(3000, () => {
-    console.log('Backend VeriScan rodando na porta 3000');
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+    console.log(`Backend VeriScan rodando na porta ${PORT}`);
 });

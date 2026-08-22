@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+.tmp/
+torchinductor_davi/
+
+# Python artifacts
+*.pyc
+*.pyo
+*.pyd
+
+# Local model / generated outputs
+cnndetection_model.pth
+validacao_*.jpg
+analise_*.jpg
+1.jpg
+2.jpg
+
+# Optional local samples
+*.png
