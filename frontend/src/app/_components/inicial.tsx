@@ -85,11 +85,16 @@ export function Inicial() {
         })
       }
 
+      setArquivosServidor([])
+      setResultado(null)
+      setStatus(
+        atualizados.length === 2
+          ? 'Duas imagens selecionadas. Agora envie para o backend.'
+          : 'Imagem adicionada. Selecione mais uma imagem para liberar o envio.'
+      )
+
       return atualizados
     })
-    setArquivosServidor([])
-    setResultado(null)
-    setStatus('Imagem adicionada. Selecione duas imagens para liberar o envio.')
     event.target.value = ''
   }
 
@@ -104,7 +109,7 @@ export function Inicial() {
 
     setArquivosServidor([])
     setResultado(null)
-    setStatus('Slot liberado. Adicione uma nova imagem para continuar.')
+    setStatus('Slot liberado. Selecione duas imagens para iniciar.')
   }
 
   async function carregarArquivos() {
@@ -179,7 +184,7 @@ export function Inicial() {
   const prontoParaTeste = arquivosServidor.length === 2
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#f5f7fb_0%,#e8edf8_100%)] text-slate-900">
+    <main className="h-screen w-full overflow-hidden bg-[linear-gradient(180deg,#f5f7fb_0%,#e8edf8_100%)] text-slate-900">
       <input
         ref={inputRef}
         type="file"
@@ -189,8 +194,8 @@ export function Inicial() {
         onChange={handleArquivos}
       />
 
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[1080px] flex-col px-4 py-3 md:px-5 lg:px-6">
-        <div className="pointer-events-none absolute inset-0 opacity-55">
+      <div className="relative mx-auto flex h-full w-full max-w-[1600px] flex-col px-4 py-4 sm:px-6 md:px-8 lg:px-10 xl:px-14">
+        <div className="pointer-events-none absolute inset-0 hidden opacity-55 lg:block">
           <div className="absolute -left-10 top-44 h-56 w-56 border border-slate-300/70" />
           <div className="absolute right-0 top-6 h-32 w-60">
             <div className="absolute left-0 top-5 h-px w-24 bg-slate-400" />
@@ -202,24 +207,24 @@ export function Inicial() {
           </div>
         </div>
 
-        <header className="relative z-10 mb-4 flex flex-col gap-2">
+        <header className="relative z-10 mb-4 flex shrink-0 flex-col gap-2 sm:mb-6">
           <p className="inline-flex w-fit rounded-full border border-slate-300 bg-white/70 px-4 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-600">
             VeriScan
           </p>
           <div className="flex items-start justify-between gap-6">
-            <h1 className="max-w-5xl text-[2.9rem] font-light leading-[0.95] tracking-[-0.045em] text-slate-800">
+            <h1 className="max-w-5xl text-[1.9rem] font-light leading-[1] tracking-[-0.035em] text-slate-800 sm:text-[2.3rem] lg:text-[2.9rem] lg:leading-[0.95] lg:tracking-[-0.045em]">
               Visão Computacional, Deep Learning e Padrões
             </h1>
           </div>
         </header>
 
-        <section className="relative z-10 grid flex-1 gap-4 grid-cols-[1fr_1fr]">
-          <article className="flex min-h-0 flex-col rounded-[1.8rem] border border-slate-200 bg-white/88 p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur">
-            <div className="mb-4 rounded-[0.95rem] bg-[linear-gradient(90deg,#3d86d9_0%,#244a7c_100%)] px-5 py-2.5 text-center text-[1rem] font-medium text-white shadow-[0_14px_35px_rgba(25,65,130,0.14)]">
+        <section className="relative z-10 grid min-h-0 flex-1 gap-4 grid-cols-1 lg:grid-cols-2 lg:gap-6">
+          <article className="flex min-h-0 flex-col rounded-[1.8rem] border border-slate-200 bg-white/88 p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-4 lg:p-5">
+            <div className="mb-4 shrink-0 rounded-[0.95rem] bg-[linear-gradient(90deg,#3d86d9_0%,#244a7c_100%)] px-5 py-2.5 text-center text-[1rem] font-medium text-white shadow-[0_14px_35px_rgba(25,65,130,0.14)]">
               Projeto VeriScan: Forense Digital
             </div>
 
-            <div className="grid min-h-0 gap-3 grid-cols-[1.15fr_0.85fr]">
+            <div className="grid min-h-0 flex-1 gap-3 grid-cols-1 overflow-y-auto sm:grid-cols-[1.15fr_0.85fr] lg:gap-4">
               <div className="flex min-h-0 flex-col">
                 <div className="mb-4 rounded-[1.15rem] border border-slate-200 bg-slate-50 p-3">
                   <div className="grid gap-3 grid-cols-2">
@@ -228,7 +233,7 @@ export function Inicial() {
                       return (
                         <div
                           key={indice}
-                          className="relative flex h-[9.7rem] items-center justify-center overflow-hidden rounded-[0.95rem] border border-slate-200 bg-white"
+                          className="relative flex h-[8.5rem] items-center justify-center overflow-hidden rounded-[0.95rem] border border-slate-200 bg-white sm:h-[9.5rem] lg:h-[10.5rem]"
                         >
                           {arquivo ? (
                             <>
@@ -256,16 +261,11 @@ export function Inicial() {
                   </div>
                 </div>
 
-                <div className="mb-4 grid gap-4 grid-cols-2 text-[13px] leading-8 text-slate-500">
-                  <p>
-                    Envie duas imagens, carregue no backend e escolha o tipo de análise para obter o resultado.
-                  </p>
-                  <p>
-                    Captura dos resultados em tempo real, integrando as duas imagens e as saídas para uma avaliação técnica centralizada.
-                  </p>
-                </div>
+                <p className="mb-4 text-[13px] leading-6 text-slate-500">
+                  Envie duas imagens, carregue no backend e escolha o tipo de análise para obter o resultado.
+                </p>
 
-                <div className="mt-auto flex flex-col gap-3">
+                <div className="flex flex-col gap-3">
                   <button
                     type="button"
                     onClick={abrirSeletor}
@@ -313,66 +313,72 @@ export function Inicial() {
                 <div className="rounded-[1rem] border border-emerald-100 bg-emerald-50/90 px-4 py-3 text-sm leading-5 text-emerald-900">
                   <span className="font-semibold">Status:</span> {status}
                 </div>
+
+                <p className="text-[13px] leading-6 text-slate-500">
+                  Captura dos resultados em tempo real, integrando as duas imagens e as saídas dos algoritmos para uma avaliação técnica centralizada.
+                </p>
               </div>
             </div>
           </article>
 
-          <article className="flex min-h-0 flex-col rounded-[1.8rem] border border-slate-200 bg-white/88 p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur">
-            <div className="mb-4 rounded-[0.95rem] bg-[linear-gradient(90deg,#3d86d9_0%,#244a7c_100%)] px-5 py-2.5 text-center text-[1rem] font-medium text-white shadow-[0_14px_35px_rgba(25,65,130,0.14)]">
+          <article className="flex min-h-0 flex-col rounded-[1.8rem] border border-slate-200 bg-white/88 p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur sm:p-4 lg:p-5">
+            <div className="mb-4 shrink-0 rounded-[0.95rem] bg-[linear-gradient(90deg,#3d86d9_0%,#244a7c_100%)] px-5 py-2.5 text-center text-[1rem] font-medium text-white shadow-[0_14px_35px_rgba(25,65,130,0.14)]">
               Air-Writing Inteligente
             </div>
 
-            <div className="flex min-h-[17.25rem] items-center justify-center rounded-[1.3rem] border border-slate-200 bg-[radial-gradient(circle_at_top,#eef7ff_0%,#ffffff_62%)] p-4">
-              {resultado ? (
-                <img
-                  src={resultado.imageUrl}
-                  alt={`Resultado do ${operationLabels[resultado.operation]}`}
-                  className="max-h-[15.25rem] w-full rounded-[1rem] object-contain"
-                />
-              ) : (
-                <div className="max-w-sm text-center text-slate-500">
-                  <p className="text-sm leading-6">
-                    O resultado aparece aqui depois que as duas imagens forem enviadas e um dos
-                    testes for executado.
-                  </p>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-4">
-              <h2 className="text-[1.05rem] font-semibold text-slate-900">Resumo da análise</h2>
-              <p className="mt-2 text-sm leading-5 text-slate-500">
-                {resultado?.summary ??
-                  'Depois do upload das duas imagens, execute um dos testes para ver o resumo técnico e as métricas.'}
-              </p>
-
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+              <div className="flex min-h-[12rem] shrink-0 items-center justify-center rounded-[1.3rem] border border-slate-200 bg-[radial-gradient(circle_at_top,#eef7ff_0%,#ffffff_62%)] p-4">
                 {resultado ? (
-                  Object.entries(resultado.metrics).map(([chave, valor]) => (
-                    <div
-                      key={chave}
-                      className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2"
-                    >
-                      <p className="text-xs uppercase tracking-[0.18em] text-slate-400">{chave}</p>
-                      <p className="mt-1 text-sm font-semibold text-slate-800">{String(valor)}</p>
-                    </div>
-                  ))
+                  <img
+                    src={resultado.imageUrl}
+                    alt={`Resultado do ${operationLabels[resultado.operation]}`}
+                    className="max-h-[15.25rem] w-full rounded-[1rem] object-contain lg:max-h-[18rem]"
+                  />
                 ) : (
-                  <>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2">
-                      <p className="text-xs uppercase tracking-[0.18em] text-slate-400">imagem A</p>
-                      <p className="mt-1 text-sm font-semibold text-slate-800">
-                        {arquivos[0]?.file.name ?? 'Não selecionada'}
-                      </p>
-                    </div>
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2">
-                      <p className="text-xs uppercase tracking-[0.18em] text-slate-400">imagem B</p>
-                      <p className="mt-1 text-sm font-semibold text-slate-800">
-                        {arquivos[1]?.file.name ?? 'Não selecionada'}
-                      </p>
-                    </div>
-                  </>
+                  <div className="max-w-sm text-center text-slate-500">
+                    <p className="text-sm leading-6">
+                      O resultado aparece aqui depois que as duas imagens forem enviadas e um dos
+                      testes for executado.
+                    </p>
+                  </div>
                 )}
+              </div>
+
+              <div>
+                <h2 className="text-[1.05rem] font-semibold text-slate-900">Resumo da análise</h2>
+                <p className="mt-2 text-sm leading-5 text-slate-500">
+                  {resultado?.summary ??
+                    'Depois do upload das duas imagens, execute um dos testes para ver o resumo técnico e as métricas.'}
+                </p>
+
+                <div className="mt-3 grid gap-3 grid-cols-1 sm:grid-cols-2">
+                  {resultado ? (
+                    Object.entries(resultado.metrics).map(([chave, valor]) => (
+                      <div
+                        key={chave}
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2"
+                      >
+                        <p className="text-xs uppercase tracking-[0.18em] text-slate-400">{chave}</p>
+                        <p className="mt-1 text-sm font-semibold text-slate-800">{String(valor)}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <>
+                      <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2">
+                        <p className="text-xs uppercase tracking-[0.18em] text-slate-400">imagem A</p>
+                        <p className="mt-1 text-sm font-semibold text-slate-800">
+                          {arquivos[0]?.file.name ?? 'Não selecionada'}
+                        </p>
+                      </div>
+                      <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2">
+                        <p className="text-xs uppercase tracking-[0.18em] text-slate-400">imagem B</p>
+                        <p className="mt-1 text-sm font-semibold text-slate-800">
+                          {arquivos[1]?.file.name ?? 'Não selecionada'}
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </article>
