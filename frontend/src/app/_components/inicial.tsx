@@ -322,7 +322,7 @@ export function Inicial() {
                   type="button"
                   onClick={() => executarTeste('subtracao')}
                   disabled={!prontoParaTeste || carregandoTeste !== null}
-                  className="rounded-full bg-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition enabled:hover:bg-sky-600 enabled:hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200"
+                  className="rounded-full bg-sky-100 px-4 py-2 text-sm font-medium text-sky-700 transition enabled:hover:bg-sky-600 enabled:hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
                 >
                   {carregandoTeste === 'subtracao' ? 'Executando...' : 'Teste de subtração'}
                 </button>
@@ -330,7 +330,7 @@ export function Inicial() {
                   type="button"
                   onClick={() => executarTeste('ela')}
                   disabled={!prontoParaTeste || carregandoTeste !== null}
-                  className="rounded-full bg-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition enabled:hover:bg-slate-800 enabled:hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200"
+                  className="rounded-full bg-violet-100 px-4 py-2 text-sm font-medium text-violet-700 transition enabled:hover:bg-violet-600 enabled:hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
                 >
                   {carregandoTeste === 'ela' ? 'Executando...' : 'Teste ELA'}
                 </button>
@@ -338,7 +338,7 @@ export function Inicial() {
                   type="button"
                   onClick={() => executarTeste('gradiente')}
                   disabled={!prontoParaTeste || carregandoTeste !== null}
-                  className="rounded-full bg-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition enabled:hover:bg-emerald-700 enabled:hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200"
+                  className="rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700 transition enabled:hover:bg-emerald-600 enabled:hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
                 >
                   {carregandoTeste === 'gradiente' ? 'Executando...' : 'Teste gradiente'}
                 </button>

@@ -4,7 +4,7 @@ Este diretório concentra o pipeline de análise forense e os artefatos associad
 
 ## Conteúdo
 
-- `pipeline3_corrigido.py`: script principal chamado pelo backend para processar duas imagens e gerar o resultado.
+- `pipeline.py`: script principal chamado pelo backend para processar duas imagens e gerar o resultado.
 - `.venv/`: ambiente virtual local usado para executar o pipeline.
 - `cnndetection_model.pth`: pesos do modelo de detecção.
 
