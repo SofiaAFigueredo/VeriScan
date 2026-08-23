@@ -48,6 +48,7 @@ export function Inicial() {
   const [status, setStatus] = useState('Selecione duas imagens para iniciar.')
   const [carregandoUpload, setCarregandoUpload] = useState(false)
   const [carregandoTeste, setCarregandoTeste] = useState<OperationKey | null>(null)
+  const [arrastando, setArrastando] = useState(false)
 
   useEffect(() => {
     return () => {
@@ -68,8 +69,7 @@ export function Inicial() {
     inputRef.current?.click()
   }
 
-  function handleArquivos(event: React.ChangeEvent<HTMLInputElement>) {
-    const selecionados = Array.from(event.target.files ?? [])
+  function adicionarArquivos(selecionados: File[]) {
     if (selecionados.length === 0) return
 
     setArquivos((prev) => {
@@ -95,7 +95,28 @@ export function Inicial() {
 
       return atualizados
     })
+  }
+
+  function handleArquivos(event: React.ChangeEvent<HTMLInputElement>) {
+    const selecionados = Array.from(event.target.files ?? [])
+    adicionarArquivos(selecionados)
     event.target.value = ''
+  }
+
+  function handleDrop(event: React.DragEvent<HTMLDivElement>) {
+    event.preventDefault()
+    setArrastando(false)
+    adicionarArquivos(Array.from(event.dataTransfer.files ?? []))
+  }
+
+  function handleDragOver(event: React.DragEvent<HTMLDivElement>) {
+    event.preventDefault()
+    setArrastando(true)
+  }
+
+  function handleDragLeave(event: React.DragEvent<HTMLDivElement>) {
+    event.preventDefault()
+    setArrastando(false)
   }
 
   function removerArquivo(indice: number) {
@@ -184,7 +205,12 @@ export function Inicial() {
   const prontoParaTeste = arquivosServidor.length === 2
 
   return (
-    <main className="h-screen w-full overflow-hidden bg-[linear-gradient(180deg,#f5f7fb_0%,#e8edf8_100%)] text-slate-900">
+    <main
+      className={`h-screen w-full overflow-hidden bg-[linear-gradient(180deg,#f5f7fb_0%,#e8edf8_100%)] text-slate-900 ${arrastando ? 'ring-4 ring-sky-300 ring-inset' : ''}`}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+    >
       <input
         ref={inputRef}
         type="file"
@@ -233,7 +259,9 @@ export function Inicial() {
                       return (
                         <div
                           key={indice}
-                          className="relative flex h-[8.5rem] items-center justify-center overflow-hidden rounded-[0.95rem] border border-slate-200 bg-white sm:h-[9.5rem] lg:h-[10.5rem]"
+                          className={`relative flex h-[8.5rem] items-center justify-center overflow-hidden rounded-[0.95rem] border bg-white sm:h-[9.5rem] lg:h-[10.5rem] ${
+                            arrastando && indice === arquivos.length ? 'border-sky-400 bg-sky-50' : 'border-slate-200'
+                          }`}
                         >
                           {arquivo ? (
                             <>
@@ -251,9 +279,14 @@ export function Inicial() {
                               </button>
                             </>
                           ) : (
-                            <p className="max-w-[8rem] text-center text-[14px] leading-8 text-slate-500">
-                              Espaço da imagem {indice + 1}
-                            </p>
+                            <div className="flex flex-col items-center gap-2 px-3 text-center">
+                              <p className="max-w-[8rem] text-[14px] leading-6 text-slate-500">
+                                Solte a imagem {indice + 1}
+                              </p>
+                              <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">
+                                ou clique para enviar
+                              </p>
+                            </div>
                           )}
                         </div>
                       )

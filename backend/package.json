@@ -2,10 +2,10 @@
   "name": "veriscan-backend",
   "version": "1.0.0",
   "description": "VeriScan Upload Backend",
-  "main": "backend/src/index.js",
+  "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon backend/src/index.js",
-    "start": "node backend/src/index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "type": "commonjs",
   "dependencies": {

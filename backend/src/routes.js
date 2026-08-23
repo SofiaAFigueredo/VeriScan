@@ -7,8 +7,8 @@ const { spawn } = require('child_process');
 
 const UPLOAD_DIR = path.resolve(__dirname, '..', 'tmp', 'uploads');
 const RESULT_DIR = path.resolve(__dirname, '..', 'tmp', 'results');
-const PIPELINE_PATH = path.resolve(__dirname, '..', '..', '..', 'código', 'pipeline3_corrigido.py');
-const PYTHON_PATH = path.resolve(__dirname, '..', '..', '..', 'código', '.venv', 'bin', 'python');
+const PIPELINE_PATH = path.resolve(__dirname, '..', '..', 'python', 'pipeline3_corrigido.py');
+const PYTHON_PATH = path.resolve(__dirname, '..', '..', 'python', '.venv', 'bin', 'python');
 
 for (const dir of [UPLOAD_DIR, RESULT_DIR]) {
   if (!fs.existsSync(dir)) {
