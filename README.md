@@ -84,6 +84,22 @@ The project consists of three core components:
 
 ---
 
+### 🖼️ Screenshots & Results
+ 
+#### Home / Upload Interface
+![VeriScan home screen](docs/images/Home.png)
+
+#### Example Result — Subtraction (`subtracao`)
+![Subtraction result example](docs/images/TesteSubtracao.png) 
+ 
+#### Example Result — Error Level Analysis (`ela`)
+![ELA result example](docs/images/TesteELA.png) 
+ 
+#### Example Result — Gradient (`gradiente`)
+![Gradient result example](docs/images/TesteGradiente.png) 
+
+---
+
 ### 📁 Project Structure
 
 ```text
@@ -231,6 +247,22 @@ O projeto está dividido em três módulos principais:
 4. O usuário escolhe a operação desejada (`subtracao`, `ela` ou `gradiente`) e aciona a requisição `POST /api/process`.
 5. O Express dispara o script `python/pipeline3.py` utilizando o executável `python/.venv/bin/python`.
 6. A imagem resultante é salva em `backend/tmp/results` e enviada para exibição na tela do usuário.
+
+---
+
+### 🖼️ Screenshots & Results
+ 
+#### Home / Upload Interface
+![VeriScan home screen](docs/images/Home.png)
+
+#### Example Result — Subtraction (`subtracao`)
+![Subtraction result example](docs/images/TesteSubtracao.png) 
+ 
+#### Example Result — Error Level Analysis (`ela`)
+![ELA result example](docs/images/TesteELA.png) 
+ 
+#### Example Result — Gradient (`gradiente`)
+![Gradient result example](docs/images/TesteGradiente.png) 
 
 ---
 
