@@ -28,7 +28,7 @@
 
 ---
 
-## 🇬🇧 English
+## 🇺🇸 English
 
 ### 🎯 Overview & Purpose
 **VeriScan** is a full-stack web application designed for digital image forensic analysis and visual comparison. Built under an academic research initiative, the application allows users to upload pair-wise images, run computational tests (such as subtraction, ELA, and gradient operations), and inspect the resulting heatmaps/outputs directly from an intuitive web interface.
