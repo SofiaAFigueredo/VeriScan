@@ -89,8 +89,8 @@ The project consists of three core components:
 #### Home / Upload Interface
 ![VeriScan home screen](docs/images/Home.png)
 
-#### Example Result — Comparison (`comparacao`)
-![Subtraction result example](docs/images/TesteSubtracao.png) 
+#### Example Result — Comparison ELA x Gradiente (`ela x gradiente`)
+![Subtraction result example](docs/images/ComparacaoELAxGradiente.png) 
  
 #### Example Result — Error Level Analysis (`ela`)
 ![ELA result example](docs/images/TesteELA.png) 
@@ -257,8 +257,8 @@ O projeto está dividido em três módulos principais:
 #### Inicial / Upload Interface
 ![VeriScan home screen](docs/images/Home.png)
 
-#### Exemplo de Resultado — Comparação (`comparacao`)
-![Subtraction result example](docs/images/TesteSubtracao.png) 
+#### Exemplo de Resultado — Comparação ELA x Gradiente (`comparacao ela x gradiente`)
+![Subtraction result example](docs/images/ComparacaoELAxGradiente.png) 
  
 #### Exemplo de Resultado — Error Level Analysis (`ela`)
 ![ELA result example](docs/images/TesteELA.png) 
