@@ -250,18 +250,18 @@ O projeto está dividido em três módulos principais:
 
 ---
 
-### 🖼️ Screenshots & Results
+### 🖼️ Captura de Tela & Resultados
  
-#### Home / Upload Interface
+#### Inicial / Upload Interface
 ![VeriScan home screen](docs/images/Home.png)
 
-#### Example Result — Subtraction (`subtracao`)
+#### Exemplo de Resultado — Subtração (`subtracao`)
 ![Subtraction result example](docs/images/TesteSubtracao.png) 
  
-#### Example Result — Error Level Analysis (`ela`)
+#### Exemplo de Resultado — Error Level Analysis (`ela`)
 ![ELA result example](docs/images/TesteELA.png) 
  
-#### Example Result — Gradient (`gradiente`)
+#### Exemplo de Resultado — Gradiente (`gradiente`)
 ![Gradient result example](docs/images/TesteGradiente.png) 
 
 ---
