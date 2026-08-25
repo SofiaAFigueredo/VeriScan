@@ -7,8 +7,15 @@ const { spawn } = require('child_process');
 
 const UPLOAD_DIR = path.resolve(__dirname, '..', 'tmp', 'uploads');
 const RESULT_DIR = path.resolve(__dirname, '..', 'tmp', 'results');
-const PIPELINE_PATH = path.resolve(__dirname, '..', '..', 'python', 'pipeline.py');
 const PYTHON_PATH = path.resolve(__dirname, '..', '..', 'python', '.venv', 'bin', 'python');
+const PIPELINE_PATHS = {
+  comparacao: path.resolve(__dirname, '..', '..', 'python', 'pipeline_comparacao.py'),
+  ela: path.resolve(__dirname, '..', '..', 'python', 'pipeline_ela.py'),
+  gradiente: path.resolve(__dirname, '..', '..', 'python', 'pipeline_gradiente.py'),
+};
+const OPERATION_ALIAS = {
+  subtracao: 'comparacao',
+};
 
 for (const dir of [UPLOAD_DIR, RESULT_DIR]) {
   if (!fs.existsSync(dir)) {
@@ -28,17 +35,25 @@ function limparDiretorio(dir) {
   return arquivos.length;
 }
 
-function rodarPipeline(inputA, inputB, operation) {
+function normalizarOperation(operation) {
+  return OPERATION_ALIAS[operation] || operation;
+}
+
+function rodarPipeline(input, operation) {
   return new Promise((resolve, reject) => {
     const interpretador = fs.existsSync(PYTHON_PATH) ? PYTHON_PATH : 'python3';
+    const operationNormalizada = normalizarOperation(operation);
+    const pipelinePath = PIPELINE_PATHS[operationNormalizada];
+
+    if (!pipelinePath) {
+      reject(new Error('Operacao invalida.'));
+      return;
+    }
+
     const processo = spawn(interpretador, [
-      PIPELINE_PATH,
-      '--input-a',
-      inputA,
-      '--input-b',
-      inputB,
-      '--operation',
-      operation,
+      pipelinePath,
+      '--input',
+      input,
       '--output-dir',
       RESULT_DIR,
     ]);
@@ -76,8 +91,8 @@ function rodarPipeline(inputA, inputB, operation) {
 }
 
 routes.post('/upload', multer(multerConfig).array('files', 2), (req, res) => {
-  if (!req.files || req.files.length !== 2) {
-    return res.status(400).json({ erro: 'Envie exatamente duas imagens.' });
+  if (!req.files || req.files.length < 1 || req.files.length > 2) {
+    return res.status(400).json({ erro: 'Envie uma ou duas imagens.' });
   }
 
   return res.json({
@@ -92,27 +107,28 @@ routes.post('/upload', multer(multerConfig).array('files', 2), (req, res) => {
 routes.post('/process', async (req, res) => {
   const { fileNames, operation } = req.body;
 
-  if (!Array.isArray(fileNames) || fileNames.length !== 2 || !operation) {
-    return res.status(400).json({ erro: 'fileNames com duas imagens e operation sao obrigatorios.' });
+  if (!Array.isArray(fileNames) || fileNames.length < 1 || !operation) {
+    return res.status(400).json({ erro: 'fileNames com ao menos uma imagem e operation sao obrigatorios.' });
   }
 
-  if (!['subtracao', 'ela', 'gradiente'].includes(operation)) {
+  const operationNormalizada = normalizarOperation(operation);
+
+  if (!['comparacao', 'ela', 'gradiente'].includes(operationNormalizada)) {
     return res.status(400).json({ erro: 'Operacao invalida.' });
   }
 
-  const inputA = path.join(UPLOAD_DIR, path.basename(fileNames[0]));
-  const inputB = path.join(UPLOAD_DIR, path.basename(fileNames[1]));
+  const input = path.join(UPLOAD_DIR, path.basename(fileNames[0]));
 
-  if (!fs.existsSync(inputA) || !fs.existsSync(inputB)) {
-    return res.status(404).json({ erro: 'Uma ou mais imagens nao foram encontradas.' });
+  if (!fs.existsSync(input)) {
+    return res.status(404).json({ erro: 'Imagem nao encontrada.' });
   }
 
   try {
-    const resultado = await rodarPipeline(inputA, inputB, operation);
+    const resultado = await rodarPipeline(input, operationNormalizada);
     const resultFile = path.basename(resultado.image);
     return res.json({
       operation: resultado.operation,
-      imageUrl: `/api/results/${resultFile}`,
+      imageUrl: `/api/results/${resultFile}?v=${Date.now()}`,
       metrics: resultado.metrics,
       summary: resultado.summary,
       fileNames,

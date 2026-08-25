@@ -10,4 +10,4 @@ Código-fonte do backend Express.
 
 ## Observação
 
-Os caminhos internos usam `backend/tmp/` para artefatos temporários e `python/` para o pipeline de análise.
+Os caminhos internos usam `backend/tmp/` para artefatos temporários e `python/` para as pipelines oficiais de análise.

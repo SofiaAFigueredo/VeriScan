@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "VeriScan",
-  description: "Interface de analise forense para testes de subtracao, ELA e gradiente.",
+  description: "Interface de analise forense para comparacao ELA x Gradiente, ELA e gradiente.",
 };
 
 export default function RootLayout({

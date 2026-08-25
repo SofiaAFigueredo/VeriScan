@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-type OperationKey = 'subtracao' | 'ela' | 'gradiente'
+type OperationKey = 'comparacao' | 'ela' | 'gradiente'
 
 type ArquivoLocal = {
   id: string
@@ -25,7 +25,7 @@ type ResultadoProcessamento = {
 }
 
 const operationLabels: Record<OperationKey, string> = {
-  subtracao: 'Teste de subtração',
+  comparacao: 'Comparação ELA x Gradiente',
   ela: 'Teste ELA',
   gradiente: 'Teste gradiente',
 }
@@ -45,7 +45,7 @@ export function Inicial() {
   const [arquivos, setArquivos] = useState<ArquivoLocal[]>([])
   const [arquivosServidor, setArquivosServidor] = useState<ArquivoServidor[]>([])
   const [resultado, setResultado] = useState<ResultadoProcessamento | null>(null)
-  const [status, setStatus] = useState('Selecione duas imagens para iniciar.')
+  const [status, setStatus] = useState('Selecione ao menos uma imagem para iniciar.')
   const [carregandoUpload, setCarregandoUpload] = useState(false)
   const [carregandoTeste, setCarregandoTeste] = useState<OperationKey | null>(null)
   const [arrastando, setArrastando] = useState(false)
@@ -88,9 +88,9 @@ export function Inicial() {
       setArquivosServidor([])
       setResultado(null)
       setStatus(
-        atualizados.length === 2
-          ? 'Duas imagens selecionadas. Agora envie para o backend.'
-          : 'Imagem adicionada. Selecione mais uma imagem para liberar o envio.'
+        atualizados.length >= 1
+          ? 'Imagem selecionada. Agora envie para o backend.'
+          : 'Selecione ao menos uma imagem para iniciar.'
       )
 
       return atualizados
@@ -130,12 +130,12 @@ export function Inicial() {
 
     setArquivosServidor([])
     setResultado(null)
-    setStatus('Slot liberado. Selecione duas imagens para iniciar.')
+    setStatus('Slot liberado. Selecione ao menos uma imagem para iniciar.')
   }
 
   async function carregarArquivos() {
-    if (arquivos.length !== 2) {
-      setStatus('Selecione exatamente duas imagens antes de carregar.')
+    if (arquivos.length < 1) {
+      setStatus('Selecione ao menos uma imagem antes de carregar.')
       return
     }
 
@@ -157,7 +157,7 @@ export function Inicial() {
       }
 
       setArquivosServidor(data.files)
-      setStatus('As duas imagens foram carregadas para o espaço de análise.')
+      setStatus('Imagem carregada para o espaço de análise.')
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Falha ao carregar as imagens.'
       setStatus(message)
@@ -167,8 +167,8 @@ export function Inicial() {
   }
 
   async function executarTeste(operation: OperationKey) {
-    if (arquivosServidor.length !== 2) {
-      setStatus('Carregue as duas imagens antes de executar um teste.')
+    if (arquivosServidor.length < 1) {
+      setStatus('Carregue ao menos uma imagem antes de executar um teste.')
       return
     }
 
@@ -201,8 +201,8 @@ export function Inicial() {
     }
   }
 
-  const prontoParaUpload = arquivos.length === 2
-  const prontoParaTeste = arquivosServidor.length === 2
+  const prontoParaUpload = arquivos.length >= 1
+  const prontoParaTeste = arquivosServidor.length >= 1
 
   return (
     <main
@@ -295,7 +295,7 @@ export function Inicial() {
                 </div>
 
                 <p className="mb-4 text-[13px] leading-6 text-slate-500">
-                  Envie duas imagens, carregue no backend e escolha o tipo de análise para obter o resultado.
+                  Envie uma imagem, carregue no backend e escolha o tipo de análise para obter o resultado.
                 </p>
 
                 <div className="flex flex-col gap-3">
@@ -320,11 +320,11 @@ export function Inicial() {
               <div className="flex min-h-full flex-col gap-2 rounded-[1.3rem] border border-slate-200 bg-white p-3">
                 <button
                   type="button"
-                  onClick={() => executarTeste('subtracao')}
+                  onClick={() => executarTeste('comparacao')}
                   disabled={!prontoParaTeste || carregandoTeste !== null}
                   className="rounded-full bg-sky-100 px-4 py-2 text-sm font-medium text-sky-700 transition enabled:hover:bg-sky-600 enabled:hover:text-white disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
                 >
-                  {carregandoTeste === 'subtracao' ? 'Executando...' : 'Teste de subtração'}
+                  {carregandoTeste === 'comparacao' ? 'Executando...' : 'Comparação ELA x Gradiente'}
                 </button>
                 <button
                   type="button"
@@ -348,7 +348,7 @@ export function Inicial() {
                 </div>
 
                 <p className="text-[13px] leading-6 text-slate-500">
-                  Captura dos resultados em tempo real, integrando as duas imagens e as saídas dos algoritmos para uma avaliação técnica centralizada.
+                  Captura dos resultados em tempo real, integrando as saídas das pipelines oficiais para uma avaliação técnica centralizada.
                 </p>
               </div>
             </div>
@@ -360,17 +360,17 @@ export function Inicial() {
             </div>
 
             <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
-              <div className="flex min-h-[12rem] shrink-0 items-center justify-center rounded-[1.3rem] border border-slate-200 bg-[radial-gradient(circle_at_top,#eef7ff_0%,#ffffff_62%)] p-4">
+              <div className="flex min-h-[18rem] shrink-0 items-center justify-center rounded-[1.3rem] border border-slate-200 bg-[radial-gradient(circle_at_top,#eef7ff_0%,#ffffff_62%)] p-3 sm:min-h-[24rem] lg:min-h-[30rem]">
                 {resultado ? (
                   <img
                     src={resultado.imageUrl}
                     alt={`Resultado do ${operationLabels[resultado.operation]}`}
-                    className="max-h-[15.25rem] w-full rounded-[1rem] object-contain lg:max-h-[18rem]"
+                    className="h-full max-h-[28rem] w-full rounded-[1rem] object-contain sm:max-h-[34rem] lg:max-h-[42rem]"
                   />
                 ) : (
                   <div className="max-w-sm text-center text-slate-500">
                     <p className="text-sm leading-6">
-                      O resultado aparece aqui depois que as duas imagens forem enviadas e um dos
+                      O resultado aparece aqui depois que a imagem for enviada e um dos
                       testes for executado.
                     </p>
                   </div>
@@ -381,7 +381,7 @@ export function Inicial() {
                 <h2 className="text-[1.05rem] font-semibold text-slate-900">Resumo da análise</h2>
                 <p className="mt-2 text-sm leading-5 text-slate-500">
                   {resultado?.summary ??
-                    'Depois do upload das duas imagens, execute um dos testes para ver o resumo técnico e as métricas.'}
+                    'Depois do upload da imagem, execute um dos testes para ver o resumo técnico e as métricas.'}
                 </p>
 
                 <div className="mt-3 grid gap-3 grid-cols-1 sm:grid-cols-2">

@@ -1,6 +1,6 @@
 # Backend
 
-Este diretório contém a API do VeriScan. O backend recebe uploads, valida entradas, executa o pipeline Python e expõe os resultados processados.
+Este diretório contém a API do VeriScan. O backend recebe uploads, valida entradas, executa a pipeline Python oficial selecionada e expõe os resultados processados.
 
 ## Estrutura
 
@@ -15,8 +15,8 @@ Este diretório contém a API do VeriScan. O backend recebe uploads, valida entr
 
 `src/routes.js` implementa:
 
-- `POST /upload`: recebe exatamente duas imagens.
-- `POST /process`: chama o script Python com as imagens enviadas.
+- `POST /upload`: recebe uma ou duas imagens.
+- `POST /process`: chama a pipeline Python oficial com a primeira imagem enviada.
 - `GET /uploads/:filename`: entrega arquivos enviados.
 - `GET /results/:filename`: entrega os resultados do processamento.
 - `DELETE /cleanup`: remove arquivos temporários.

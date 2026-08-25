@@ -31,7 +31,7 @@
 ## 🇺🇸 English
 
 ### 🎯 Overview & Purpose
-**VeriScan** is a full-stack web application designed for digital image forensic analysis and visual comparison. Built under an academic research initiative, the application allows users to upload pair-wise images, run computational tests (such as subtraction, ELA, and gradient operations), and inspect the resulting heatmaps/outputs directly from an intuitive web interface.
+**VeriScan** is a full-stack web application designed for digital image forensic analysis and visual comparison. Built under an academic research initiative, the application allows users to upload one or two images, run the official computational tests (`comparacao`, `ela`, and `gradiente`), and inspect the resulting heatmaps/outputs directly from an intuitive web interface.
 
 The platform links a modern web stack (Next.js & Express) with a local Python environment equipped with deep learning models to support digital forensics and forgery analysis.
 
@@ -39,9 +39,9 @@ The platform links a modern web stack (Next.js & Express) with a local Python en
 
 ### ⚙️ Key Operations
 
-VeriScan currently supports three primary image comparison operations:
+VeriScan currently supports three primary forensic operations:
 
-* **`subtracao` (Subtraction):** Calculates pixel-level difference between two target images to detect visual discrepancies.
+* **`comparacao` (Comparison):** Compares the ELA and Gradient verdicts for a single uploaded image in one consolidated report.
 * **`ela` (Error Level Analysis):** Analyzes JPEG compression artifacts across different levels to highlight modified regions.
 * **`gradiente` (Gradient):** Evaluates image intensity gradients to identify structural edge anomalies and tampered areas.
 
@@ -53,10 +53,10 @@ The project consists of three core components:
 
 1. **`frontend/`**: Next.js (TypeScript) interface offering drag-and-drop file uploads, image previews, operation selection, and interactive result rendering.
 2. **`backend/`**: Node.js REST API using Express and Multer to handle temporary uploads, spawn child Python processes, serve output images, and clean up temporary storage.
-3. **`python/`**: Python virtual environment (`.venv`) hosting trained model weights (`cnndetection_model.pth`) and execution scripts (`pipeline3.py`).
+3. **`python/`**: Python virtual environment (`.venv`) hosting trained model weights (`cnndetection_model.pth`) and the official execution scripts (`pipeline_comparacao.py`, `pipeline_ela.py`, and `pipeline_gradiente.py`).
 
 ```text
-[User] ──(Drag & Drop / Select 2 Images)──► [Next.js Frontend]
+[User] ──(Drag & Drop / Select 1 or 2 Images)──► [Next.js Frontend]
                                                   │
                                            (POST /api/upload)
                                                   ▼
@@ -65,7 +65,7 @@ The project consists of three core components:
                                            (POST /api/process)
                                                   ▼
                                       [Python Pipeline Process]
-                                  (Runs pipeline3.py)
+                     (Runs pipeline_comparacao.py / pipeline_ela.py / pipeline_gradiente.py)
                                                   │
                                      (Outputs to backend/tmp/results)
                                                   ▼
@@ -75,11 +75,11 @@ The project consists of three core components:
 
 #### Detailed Execution Workflow:
 
-1. The user selects or drags two images into the web UI (`frontend/src/app/_components/inicial.tsx`).
-2. The frontend sends both images to `POST /api/upload`.
+1. The user selects or drags one or two images into the web UI (`frontend/src/app/_components/inicial.tsx`).
+2. The frontend sends the selected images to `POST /api/upload`.
 3. The backend validates and temporarily stores the images in `backend/tmp/uploads`.
-4. The user selects an operation (`subtracao`, `ela`, or `gradiente`) and triggers `POST /api/process`.
-5. The Express backend spawns `python/pipeline3.py` via `python/.venv/bin/python`.
+4. The user selects an operation (`comparacao`, `ela`, or `gradiente`) and triggers `POST /api/process`.
+5. The Express backend spawns the corresponding official script via `python/.venv/bin/python`.
 6. The resulting visual output is generated in `backend/tmp/results` and served back to the UI.
 
 ---
@@ -89,7 +89,7 @@ The project consists of three core components:
 #### Home / Upload Interface
 ![VeriScan home screen](docs/images/Home.png)
 
-#### Example Result — Subtraction (`subtracao`)
+#### Example Result — Comparison (`comparacao`)
 ![Subtraction result example](docs/images/TesteSubtracao.png) 
  
 #### Example Result — Error Level Analysis (`ela`)
@@ -129,7 +129,9 @@ VeriScan/
 └── python/                       # Machine Learning & Forensic Execution
     ├── .venv/                    # Local Python virtual environment
     ├── cnndetection_model.pth    # PyTorch model weights artifact
-    └── pipeline3.py    # Forensic pipeline execution script
+    ├── pipeline_comparacao.py    # Official comparison pipeline
+    ├── pipeline_ela.py           # Official ELA pipeline
+    └── pipeline_gradiente.py     # Official gradient pipeline
 
 ```
 
@@ -139,7 +141,7 @@ VeriScan/
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
-| `POST` | `/api/upload` | Uploads exactly two target images (`jpeg`, `png`, `webp`, `bmp`, `tiff`). |
+| `POST` | `/api/upload` | Uploads one or two target images (`jpeg`, `png`, `webp`, `bmp`, `tiff`). |
 | `POST` | `/api/process` | Executes the forensic pipeline (`fileNames` array & `operation`). |
 | `GET` | `/api/uploads/:filename` | Serves an uploaded input image. |
 | `GET` | `/api/results/:filename` | Serves a processed result/heatmap image. |
@@ -178,7 +180,7 @@ pip install torch torchvision opencv-python pillow numpy matplotlib
 
 ```
 
-> **Note:** The backend executes `python/pipeline3.py` using arguments `--input-a`, `--input-b`, `--operation`, and `--output-dir`. Ensure this script exists in the `python/` folder.
+> **Note:** The backend executes one of `python/pipeline_comparacao.py`, `python/pipeline_ela.py`, or `python/pipeline_gradiente.py` using `--input` and `--output-dir`.
 
 #### 3. Start the Frontend Application
 
@@ -197,7 +199,7 @@ npm run dev
 
 ### 🎯 Visão Geral e Propósito
 
-O **VeriScan** é uma aplicação web full-stack desenvolvida para análise forense digital e comparação de imagens. Construído em contexto de pesquisa acadêmica, o sistema permite que o usuário envie duas imagens, execute exames computacionais (como subtração, ELA e gradiente) e visualize os mapas de calor e resultados processados diretamente na interface web.
+O **VeriScan** é uma aplicação web full-stack desenvolvida para análise forense digital e comparação de imagens. Construído em contexto de pesquisa acadêmica, o sistema permite que o usuário envie uma ou duas imagens, execute as pipelines oficiais (`comparacao`, `ela` e `gradiente`) e visualize os mapas de calor e resultados processados diretamente na interface web.
 
 A plataforma integra uma stack moderna (Next.js e Express) a um ambiente local em Python equipado com modelos de aprendizado profundo para apoiar a investigação de fraudes e manipulações visuais.
 
@@ -207,7 +209,7 @@ A plataforma integra uma stack moderna (Next.js e Express) a um ambiente local e
 
 Atualmente, o VeriScan suporta três operações principais de análise:
 
-* **`subtracao`:** Realiza a diferença direta entre os pixels de duas imagens para destacar discrepâncias visuais.
+* **`comparacao`:** Consolida os vereditos de ELA e Gradiente sobre uma imagem em um único relatório.
 * **`ela` (Error Level Analysis):** Analisa as diferenças nos níveis de compressão JPEG para identificar áreas modificadas.
 * **`gradiente`:** Avalia variações na intensidade da imagem para identificar anomalias nas bordas e estruturas da cena.
 
@@ -219,10 +221,10 @@ O projeto está dividido em três módulos principais:
 
 1. **`frontend/`**: Interface em Next.js (TypeScript) com drag-and-drop, preview de imagens, seleção de exames e exibição interativa de resultados.
 2. **`backend/`**: API REST em Node.js com Express e Multer. Recebe os uploads, gerencia os arquivos temporários, dispara o processo Python e entrega os arquivos processados.
-3. **`python/`**: Ambiente virtual Python (`.venv`) contendo os pesos do modelo pré-treinado (`cnndetection_model.pth`) e o script do pipeline (`pipeline3.py`).
+3. **`python/`**: Ambiente virtual Python (`.venv`) contendo os pesos do modelo pré-treinado (`cnndetection_model.pth`) e os scripts oficiais (`pipeline_comparacao.py`, `pipeline_ela.py` e `pipeline_gradiente.py`).
 
 ```text
-[Usuário] ──(Arrasta / Seleciona 2 Imagens)──► [Frontend Next.js]
+[Usuário] ──(Arrasta / Seleciona 1 ou 2 Imagens)──► [Frontend Next.js]
                                                       │
                                                (POST /api/upload)
                                                       ▼
@@ -231,7 +233,7 @@ O projeto está dividido em três módulos principais:
                                                (POST /api/process)
                                                       ▼
                                            [Execução do Pipeline Python]
-                                          (Roda pipeline3.py)
+                    (Roda pipeline_comparacao.py / pipeline_ela.py / pipeline_gradiente.py)
                                                       │
                                          (Salva em backend/tmp/results)
                                                       ▼
@@ -241,11 +243,11 @@ O projeto está dividido em três módulos principais:
 
 #### Fluxo Detalhado do Código:
 
-1. O usuário seleciona ou arrasta duas imagens na interface (`frontend/src/app/_components/inicial.tsx`).
+1. O usuário seleciona ou arrasta uma ou duas imagens na interface (`frontend/src/app/_components/inicial.tsx`).
 2. O frontend envia os arquivos para `POST /api/upload`.
 3. O backend armazena as imagens temporariamente na pasta `backend/tmp/uploads`.
-4. O usuário escolhe a operação desejada (`subtracao`, `ela` ou `gradiente`) e aciona a requisição `POST /api/process`.
-5. O Express dispara o script `python/pipeline3.py` utilizando o executável `python/.venv/bin/python`.
+4. O usuário escolhe a operação desejada (`comparacao`, `ela` ou `gradiente`) e aciona a requisição `POST /api/process`.
+5. O Express dispara o script oficial correspondente utilizando o executável `python/.venv/bin/python`.
 6. A imagem resultante é salva em `backend/tmp/results` e enviada para exibição na tela do usuário.
 
 ---
@@ -255,7 +257,7 @@ O projeto está dividido em três módulos principais:
 #### Inicial / Upload Interface
 ![VeriScan home screen](docs/images/Home.png)
 
-#### Exemplo de Resultado — Subtração (`subtracao`)
+#### Exemplo de Resultado — Comparação (`comparacao`)
 ![Subtraction result example](docs/images/TesteSubtracao.png) 
  
 #### Exemplo de Resultado — Error Level Analysis (`ela`)
@@ -295,7 +297,9 @@ VeriScan/
 └── python/                       # Pipeline Forense em Python
     ├── .venv/                    # Ambiente virtual Python local
     ├── cnndetection_model.pth    # Pesos do modelo de aprendizado profundo
-    └── pipeline3.py    # Script principal do pipeline de análise
+    ├── pipeline_comparacao.py    # Pipeline oficial de comparação
+    ├── pipeline_ela.py           # Pipeline oficial ELA
+    └── pipeline_gradiente.py     # Pipeline oficial de gradiente
 
 ```
 
@@ -305,7 +309,7 @@ VeriScan/
 
 | Método | Endpoint | Descrição |
 | --- | --- | --- |
-| `POST` | `/api/upload` | Recebe exatamente duas imagens (`jpeg`, `png`, `webp`, `bmp`, `tiff`). |
+| `POST` | `/api/upload` | Recebe uma ou duas imagens (`jpeg`, `png`, `webp`, `bmp`, `tiff`). |
 | `POST` | `/api/process` | Executa o pipeline de análise recebendo o array `fileNames` e a `operation`. |
 | `GET` | `/api/uploads/:filename` | Entrega uma imagem original enviada. |
 | `GET` | `/api/results/:filename` | Entrega o arquivo de resultado/mapa de calor gerado. |
@@ -344,7 +348,7 @@ pip install torch torchvision opencv-python pillow numpy matplotlib
 
 ```
 
-> **Aviso:** O backend invoca o script `python/pipeline3.py` aceitando os argumentos `--input-a`, `--input-b`, `--operation` e `--output-dir`. Certifique-se de que o script esteja presente com essa nomenclatura.
+> **Aviso:** O backend invoca `python/pipeline_comparacao.py`, `python/pipeline_ela.py` ou `python/pipeline_gradiente.py` com os argumentos `--input` e `--output-dir`.
 
 #### 3. Configurando e Rodando o Frontend
 
